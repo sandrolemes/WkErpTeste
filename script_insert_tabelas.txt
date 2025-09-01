@@ -1,0 +1,237 @@
+CREATE DATABASE 'wkerp';
+
+
+
+CREATE TABLE `clientes` (
+  `codcli` BIGINT NOT NULL,
+  `nome` VARCHAR(100) NOT NULL,
+  `cidade` VARCHAR(100) DEFAULT NULL,
+  `uf` VARCHAR(2) DEFAULT NULL,
+  PRIMARY KEY (`codcli`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+
+
+CREATE TABLE `produtos` (
+  `codprod` VARCHAR(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `descricao` VARCHAR(100) NOT NULL,
+  `precovenda` DOUBLE(12,2) DEFAULT NULL,
+  PRIMARY KEY (`codprod`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+
+
+CREATE TABLE `pedidoscab` (
+  `numped` BIGINT NOT NULL AUTO_INCREMENT,
+  `dataemissao` DATETIME NOT NULL,
+  `codcli` BIGINT NOT NULL,
+  `valortotal` DOUBLE(12,2) DEFAULT NULL,
+  PRIMARY KEY (`numped`),
+  KEY `pedidocab_clientes_FK` (`codcli`),
+  CONSTRAINT `pedidocab_clientes_FK` FOREIGN KEY (`codcli`) REFERENCES `clientes` (`codcli`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+
+
+
+ALTER TABLE `pedidoscab` AUTO_INCREMENT = 0;
+
+
+
+CREATE TABLE `pedidositens` (
+  `numped` BIGINT NOT NULL,
+  `numpeditem` BIGINT NOT NULL AUTO_INCREMENT,
+  `codprod` VARCHAR(100) NOT NULL,
+  `quantidade` DOUBLE(12,6) DEFAULT NULL,
+  `valorunit` DOUBLE(12,2) DEFAULT NULL,
+  `valortotal` DOUBLE(12,2) DEFAULT NULL,
+  PRIMARY KEY (`numpeditem`),
+  KEY `pedidositens_produtos_FK` (`codprod`),
+  KEY `pedidositens_pedidoscab_FK` (`numped`),
+  CONSTRAINT `pedidositens_pedidoscab_FK` FOREIGN KEY (`numped`) REFERENCES `pedidoscab` (`numped`),
+  CONSTRAINT `pedidositens_produtos_FK` FOREIGN KEY (`codprod`) REFERENCES `produtos` (`codprod`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3;
+
+
+
+INSERT INTO clientes (codcli, nome, cidade, uf) VALUES
+ (1, 'Ana Silva', 'São Paulo', 'SP'),
+ (2, 'Carlos Ferreira', 'Rio de Janeiro', 'RJ'),
+ (3, 'Mariana Oliveira', 'Belo Horizonte', 'MG'),
+ (4, 'Rafael Costa', 'Curitiba', 'PR'),
+ (5, 'Bianca Santos', 'Porto Alegre', 'RS'),
+ (6, 'João Pereira', 'Salvador', 'BA'),
+ (7, 'Gabriela Mendes', 'Florianópolis', 'SC'),
+ (8, 'Fernando Lima', 'Manaus', 'AM'),
+ (9, 'Isabela Souza', 'Recife', 'PE'),
+ (10, 'Gustavo Martins', 'Goiânia', 'GO'),
+ (11, 'Pedro Alves', 'Fortaleza', 'CE'),
+ (12, 'Juliana Gomes', 'Natal', 'RN'),
+ (13, 'Felipe Ribeiro', 'Vitória', 'ES'),
+ (14, 'Camila Nunes', 'Brasília', 'DF'),
+ (15, 'Thiago Rocha', 'Belém', 'PA'),
+ (16, 'Larissa Barros', 'Campo Grande', 'MS'),
+ (17, 'Diego Fernandes', 'Aracaju', 'SE'),
+ (18, 'Vanessa Almeida', 'João Pessoa', 'PB'),
+ (19, 'Lucas Teixeira', 'Maceió', 'AL'),
+ (20, 'Patrícia Carvalho', 'Cuiabá', 'MT'),
+ (21, 'Ana Pereira', 'Goiânia', 'GO'),
+ (22, 'Carlos Silva', 'São Paulo', 'SP'),
+ (23, 'Fernanda Souza', 'Rio de Janeiro', 'RJ'),
+ (24, 'Ricardo Oliveira', 'Belo Horizonte', 'MG'),
+ (25, 'Juliana Santos', 'Curitiba', 'PR'),
+ (26, 'Marcelo Lima', 'Porto Alegre', 'RS'),
+ (27, 'Patrícia Costa', 'Salvador', 'BA'),
+ (28, 'Roberto Almeida', 'Fortaleza', 'CE'),
+ (29, 'Vanessa Martins', 'Recife', 'PE'),
+ (30, 'Eduardo Rocha', 'Brasília', 'DF'),
+ (31, 'Mariana Ferreira', 'Manaus', 'AM'),
+ (32, 'Lucas Carvalho', 'Belém', 'PA'),
+ (33, 'Sabrina Gomes', 'Natal', 'RN'),
+ (34, 'Thiago Mendes', 'Campinas', 'SP'),
+ (35, 'Beatriz Araújo', 'Florianópolis', 'SC');
+
+
+
+INSERT INTO produtos (codprod, descricao, precovenda) VALUES
+('101', 'Smartphone Samsung Galaxy S21', 3499.90),
+('102', 'Notebook Dell Inspiron 15', 4599.99),
+('103', 'Smart TV LG 50" 4K', 2799.90),
+('104', 'Fone de Ouvido JBL Bluetooth', 399.90),
+('105', 'Geladeira Brastemp Frost Free 400L', 3999.99),
+('106', 'Máquina de Lavar Samsung 11Kg', 2999.90),
+('107', 'Micro-ondas Electrolux 20L', 499.99),
+('108', 'Notebook Acer Aspire 5', 3899.99),
+('109', 'Cafeteira Nespresso Essenza Mini', 499.90),
+('110', 'Smartphone Apple iPhone 14', 6999.00),
+('111', 'Mouse Gamer Logitech G502', 349.99),
+('112', 'Teclado Mecânico Redragon Kumara', 299.90),
+('113', 'Caixa de Som JBL Flip 5', 699.90),
+('114', 'Ar Condicionado Split LG Dual Inverter', 2999.99),
+('115', 'Monitor Samsung 24" Full HD', 1099.90),
+('116', 'Headset Gamer HyperX Cloud II', 599.99),
+('117', 'Câmera GoPro Hero 11 Black', 2899.90),
+('118', 'Smartwatch Xiaomi Mi Watch', 1199.90),
+('119', 'Ventilador de Mesa Arno Turbo', 299.90),
+('120', 'Kindle Paperwhite 8GB', 649.90),
+('A121', 'Camiseta Polo Masculina', 79.90),
+('B122', 'Calça Jeans Feminina', 159.50),
+('C123', 'Tênis Esportivo Running', 229.99),
+('P124', 'Smartphone 128GB', 1499.00),
+('N125', 'Notebook 15.6" i5', 3299.00),
+('F126', 'Fone de Ouvido Bluetooth', 199.90),
+('S127', 'Smartwatch Pro Series', 899.00),
+('M128', 'Sandália Feminina Rasteira', 69.90),
+('B129', 'Bolsa de Couro Feminina', 249.99),
+('R130', 'Relógio Digital Masculino', 189.50),
+('BN31', 'Boné Aba Curva', 49.90),
+('CX32', 'Caixa de Som Bluetooth', 349.00),
+('CM33', 'Câmera Digital Compacta', 1199.00),
+('OC34', 'Óculos de Sol Unissex', 119.90),
+('JJ35', 'Jaqueta Jeans Azul', 179.00),
+('ML36', 'Blusa de Moletom Canguru', 149.90),
+('TV37', 'TV LED 50” 4K', 2599.00),
+('TN38', 'Tênis Casual Feminino', 219.90),
+('SJ39', 'Saia Jeans Curta', 99.00),
+('TB40', 'Tablet 10” 64GB', 999.00);
+
+
+
+INSERT INTO pedidoscab (dataemissao, codcli, valortotal) VALUES
+('2025-05-06 10:00:00', 21, 1029.79),
+('2025-05-15 11:00:00', 22, 2588.79),
+('2025-06-02 12:00:00', 23, 4098.90),
+('2025-06-18 13:00:00', 24, 2447.90),
+('2025-06-26 14:00:00', 25, 1194.70),
+('2025-07-08 15:00:00', 26, 2299.80),
+('2025-07-17 16:00:00', 27, 1464.60),
+('2025-08-05 17:00:00', 28, 4199.60),
+('2025-08-11 18:00:00', 29, 1259.70),
+('2025-08-29 19:00:00', 30, 5348.80),
+('2025-09-01 10:00:00', 1, 7199.79),
+('2025-09-01 11:00:00', 4, 10098.78),
+('2025-09-01 12:00:00', 6, 5399.79),
+('2025-09-01 13:00:00', 7, 12899.88),
+('2025-09-01 14:00:00', 9, 4749.78),
+('2025-09-01 15:00:00', 10, 3899.99),
+('2025-09-01 16:00:00', 12, 6199.78),
+('2025-09-01 17:00:00', 14, 10499.87),
+('2025-09-01 18:00:00', 17, 2099.79),
+('2025-09-01 19:00:00', 19, 8399.77);
+
+
+
+INSERT INTO pedidositens (numped, codprod, quantidade, valorunit, valortotal) values
+(1, 'A121', 2, 79.90, 159.80),
+(1, 'B122', 1, 250.00, 250.00),
+(1, 'C123', 1, 229.99, 229.99),
+(1, 'M128', 2, 69.00, 138.00),
+(1, 'BN31', 1, 49.00, 49.00),
+(2, 'P124', 1, 1499.00, 1499.00),
+(2, 'F126', 2, 199.90, 399.80),
+(2, 'S127', 1, 899.00, 899.00),
+(2, 'OC34', 1, 95.00, 95.00),
+(3, 'N125', 1, 3299.00, 3299.00),
+(3, 'CX32', 1, 799.90, 799.90),
+(4, 'TV37', 1, 2599.00, 2599.00),
+(4, 'TN38', 1, 219.90, 219.90),
+(4, 'TB40', 1, 999.00, 999.00),
+(4, 'JJ35', 1, 179.00, 179.00),
+(4, 'ML36', 1, 250.00, 250.00),
+(5, 'A121', 3, 79.90, 239.70),
+(5, 'B129', 1, 955.00, 955.00),
+(6, 'C123', 2, 229.99, 459.98),
+(6, 'F126', 1, 199.90, 199.90),
+(6, 'OC34', 1, 639.92, 639.92),
+(7, 'BN31', 2, 49.00, 98.00),
+(7, 'M128', 1, 69.00, 69.00),
+(7, 'S127', 1, 899.00, 899.00),
+(7, 'CX32', 1, 398.60, 398.60),
+(8, 'TV37', 1, 2599.00, 2599.00),
+(8, 'TN38', 2, 219.90, 439.80),
+(8, 'TB40', 1, 999.00, 999.00),
+(8, 'A121', 1, 79.90, 79.90),
+(8, 'B122', 1, 250.00, 250.00),
+(8, 'C123', 1, 229.99, 229.99),
+(8, 'ML36', 1, 402.91, 402.91),
+(9, 'TN38', 1, 219.90, 219.90),
+(9, 'OC34', 1, 1039.80, 1039.80),
+(10, 'N125', 1, 3299.00, 3299.00),
+(10, 'F126', 1, 199.90, 199.90),
+(10, 'CX32', 2, 349.95, 699.90),
+(10, 'JJ35', 1, 179.00, 179.00),
+(10, 'TB40', 1, 971.00, 971.00),
+(11, '101', 1, 3499.90, 3499.90),
+(11, '104', 2, 399.95, 799.90),
+(11, '111', 1, 349.99, 349.99),
+(11, '120', 1, 649.00, 649.00),
+(12, '102', 1, 4599.99, 4599.99),
+(12, '103', 1, 2799.90, 2799.90),
+(12, '105', 1, 3999.00, 3999.00),
+(12, '119', 1, 299.89, 299.89),
+(13, '106', 1, 2999.90, 2999.90),
+(13, '113', 1, 3399.89, 3399.89),
+(14, '107', 1, 499.99, 499.99),
+(14, '108', 1, 3899.99, 3899.99),
+(14, '110', 1, 6999.00, 6999.00),
+(14, '116', 1, 599.90, 599.90),
+(14, '115', 1, 299.00, 299.00),
+(15, '109', 1, 499.90, 499.90),
+(15, '118', 3, 1199.96, 3599.88),
+(16, '101', 1, 3499.90, 3499.90),
+(16, '114', 1, 3899.99, 3899.99),
+(17, '102', 1, 4599.99, 4599.99),
+(17, '107', 1, 499.99, 499.99),
+(17, '117', 1, 1099.80, 1099.80),
+(18, '103', 1, 2799.90, 2799.90),
+(18, '105', 1, 3999.00, 3999.00),
+(18, '110', 1, 6999.00, 6999.00),
+(18, '116', 1, 599.90, 599.90),
+(18, '120', 1, 649.00, 649.00),
+(18, '119', 1, 299.00, 299.00),
+(19, '111', 1, 349.99, 349.99),
+(19, '112', 1, 299.80, 299.80),
+(20, '108', 1, 3899.99, 3899.99),
+(20, '109', 1, 499.90, 499.90),
+(20, '113', 2, 699.95, 1399.90),
+(20, '114', 1, 2999.99, 2999.99),
+(20, '115', 1, 1099.99, 1099.99);
